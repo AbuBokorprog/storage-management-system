@@ -3,8 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv").config();
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-dotenv_1.default.config({ path: path_1.default.join(process.cwd(), ".env") });
-console.log(process.cwd());
+dotenv_1.default.config({ path: path_1.default.join(process.cwd(), '.env') });
+exports.default = {
+    port: process.env.PORT,
+    database_url: `${process.env.MONGODB_URL}`,
+};

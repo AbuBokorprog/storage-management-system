@@ -8,13 +8,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const _1 = __importDefault(require("."));
+const route_1 = __importDefault(require("./app/route"));
 // import { StudentRoutes } from './modules/students/student.route';
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // application routes
-app.use(_1.default);
+app.use(route_1.default);
 app.get('/', (req, res) => {
     res.send('Project setup home page');
 });

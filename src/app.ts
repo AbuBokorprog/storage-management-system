@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import router from '.';
+import router from './app/route';
 // import { StudentRoutes } from './modules/students/student.route';
 const app: Application = express();
 

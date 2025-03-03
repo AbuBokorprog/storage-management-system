@@ -6,3 +6,10 @@ declare global {
     }
   }
 }
+
+export interface DecodedToken {
+  email: string;
+  id: string;
+  exp: number;
+  [key: string]: any; // If there are additional fields
+}

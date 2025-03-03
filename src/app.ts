@@ -4,19 +4,19 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import router from './app/route';
-// import { StudentRoutes } from './modules/students/student.route';
 const app: Application = express();
+import cookieParser from 'cookie-parser';
 
 app.use(express.json());
 app.use(cors());
-
+app.use(cookieParser());
 // application routes
-
-app.use(router);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Project setup home page');
 });
+
+app.use('/api', router);
 
 // global error
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

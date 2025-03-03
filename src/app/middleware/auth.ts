@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import catchAsync from '../utils/catchAsync';
 import { AppError } from '../errors/AppError';
-import { UserModel } from '../modules/users/users.model';
 import httpStatus from 'http-status';
+import { User } from '../modules/users/users.model';
+import { DecodedToken } from '../interface';
 
-const auth = (...requiredRoles: string[]) => {
+const auth = () => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const token = req.headers.authorization?.split(' ')[1];
 
     // checking if the token is missing
     if (!token) {
@@ -21,44 +24,16 @@ const auth = (...requiredRoles: string[]) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { role, userId, iat } = decoded;
+    const { id, iat } = decoded;
 
     // checking if the user is exist
-    const user = await UserModel.isUserExistsByCustomId(userId);
+    const user = await User.isUserExistsByCustomId(id);
 
     if (!user) {
       throw new AppError(404, 'This user is not found !');
     }
-    // checking if the user is already deleted
 
-    const isDeleted = user?.isDeleted;
-
-    if (isDeleted) {
-      throw new AppError(401, 'This user is deleted !');
-    }
-
-    // checking if the user is blocked
-    const userStatus = user?.status;
-
-    if (userStatus === 'blocked') {
-      throw new AppError(401, 'This user is blocked ! !');
-    }
-
-    if (
-      user.passwordChangedAt &&
-      (await UserModel.isJWTIssuedBeforePasswordChanged(
-        user.passwordChangedAt,
-        iat as number,
-      ))
-    ) {
-      throw new AppError(400, 'You are not authorized !');
-    }
-
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(400, 'You are not authorized  hi!');
-    }
-
-    req.user = decoded as JwtPayload;
+    req.user = decoded as DecodedToken;
     next();
   });
 };

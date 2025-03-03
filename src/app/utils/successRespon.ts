@@ -4,7 +4,7 @@ type Data<T> = {
   statusCode: number;
   success: boolean;
   message: string;
-  data: T;
+  data?: T;
 };
 
 const successResponse = <T>(res: Response, data: Data<T>) => {

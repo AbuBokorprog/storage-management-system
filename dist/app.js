@@ -9,15 +9,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const route_1 = __importDefault(require("./app/route"));
-// import { StudentRoutes } from './modules/students/student.route';
 const app = (0, express_1.default)();
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+app.use((0, cookie_parser_1.default)());
 // application routes
-app.use(route_1.default);
 app.get('/', (req, res) => {
     res.send('Project setup home page');
 });
+app.use('/api', route_1.default);
 // global error
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, req, res, next) => {

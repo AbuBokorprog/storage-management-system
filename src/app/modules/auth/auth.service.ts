@@ -7,6 +7,7 @@ import { AppError } from '../../errors/AppError';
 import { sendEmail } from '../../utils/sendMail';
 import { IUser } from '../users/users.interface';
 import config from '../../config';
+import { Folder } from '../folders/folders.model';
 
 // Register
 const register = async (data: IUser) => {
@@ -23,6 +24,11 @@ const register = async (data: IUser) => {
     name: data.name,
     photo: data.photo,
     password: hashedPassword,
+  });
+
+  await Folder.create({
+    name: 'New Folder',
+    userId: user._id,
   });
 
   return user;

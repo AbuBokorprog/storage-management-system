@@ -18,13 +18,15 @@ const dashboardSummary = async (userId: string) => {
 
   const totalImage = await File.find({
     userId,
-    type:
-      'image/png' ||
-      'image/svg+xml' ||
-      'image/webp' ||
-      'image/gif' ||
-      'image/jpeg',
+
+    type: { $regex: 'image' },
   });
+
+  const recentFiles = await File.find({
+    userId: userId,
+  })
+    .limit(10)
+    .sort({ createdAt: -1 });
 
   return {
     totalStorage: user?.maxStorage,
@@ -32,6 +34,7 @@ const dashboardSummary = async (userId: string) => {
     totalPDF: totalPDF?.length,
     totalImage: totalImage?.length,
     totalNote: totalNote.length,
+    recentFiles,
   };
 };
 

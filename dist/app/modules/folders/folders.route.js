@@ -12,4 +12,7 @@ const folders_validation_1 = require("./folders.validation");
 const router = express_1.default.Router();
 router.post('/create', (0, auth_1.default)(), (0, validateRequest_1.default)(folders_validation_1.folderValidation.createFolderSchema), folders_controller_1.foldersController.createFolder);
 router.get('/', (0, auth_1.default)(), folders_controller_1.foldersController.getFolders);
+router.delete('/:id', (0, auth_1.default)(), folders_controller_1.foldersController.deleteFolder);
+router.patch('/:id/rename', (0, auth_1.default)(), folders_controller_1.foldersController.renameFolder);
+router.post('/:id/duplicate', (0, auth_1.default)(), folders_controller_1.foldersController.duplicateFolder);
 exports.foldersRoutes = router;

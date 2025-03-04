@@ -17,11 +17,19 @@ const UserSchema = new mongoose_1.Schema({
     resetPasswordExpires: {
         type: Number,
     },
+    storageUsed: {
+        type: Number,
+        default: 0,
+    },
+    maxStorage: {
+        type: Number,
+        default: 15 * 1024 * 1024 * 1024,
+    },
 }, {
     timestamps: true,
 });
 UserSchema.statics.isUserExistsByCustomId = async function (id) {
-    return await exports.User.findOne({ id });
+    return await exports.User.findOne({ _id: id });
 };
 UserSchema.statics.isPasswordMatched = async function (plainText, hashPassword) {
     return bcrypt_1.default.compare(plainText, hashPassword);

@@ -25,8 +25,6 @@ const register = async (data: IUser) => {
     password: hashedPassword,
   });
 
-  console.log(data);
-
   return user;
 };
 
@@ -42,7 +40,7 @@ const login = async (email: string, password: string) => {
   }
   const access_token = jwt.sign(
     { id: user._id, name: user.name, email: user.email },
-    config.api_secret_key as string,
+    config.jwt_access_secret as string,
     {
       expiresIn: '1d',
     },
@@ -63,6 +61,7 @@ const login = async (email: string, password: string) => {
   };
 };
 
+// forget password
 const forgetPassword = async (email: string) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -88,6 +87,7 @@ const forgetPassword = async (email: string) => {
   );
 };
 
+// reset password
 const resetPassword = async (token: string, newPassword: string) => {
   const resetPasswordToken = crypto
     .createHash('sha256')
@@ -106,6 +106,7 @@ const resetPassword = async (token: string, newPassword: string) => {
   await user.save();
 };
 
+// change password
 const changePassword = async (
   userId: string,
   oldPassword: string,

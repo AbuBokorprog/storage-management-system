@@ -14,6 +14,14 @@ const UserSchema = new Schema<IUser>(
     resetPasswordExpires: {
       type: Number,
     },
+    storageUsed: {
+      type: Number,
+      default: 0,
+    },
+    maxStorage: {
+      type: Number,
+      default: 15 * 1024 * 1024 * 1024,
+    },
   },
   {
     timestamps: true,
@@ -21,7 +29,7 @@ const UserSchema = new Schema<IUser>(
 );
 
 UserSchema.statics.isUserExistsByCustomId = async function (id: string) {
-  return await User.findOne({ id });
+  return await User.findOne({ _id: id });
 };
 
 UserSchema.statics.isPasswordMatched = async function (

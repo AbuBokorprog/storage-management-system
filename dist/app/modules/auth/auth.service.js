@@ -27,7 +27,6 @@ const register = async (data) => {
         photo: data.photo,
         password: hashedPassword,
     });
-    console.log(data);
     return user;
 };
 // login password
@@ -40,7 +39,7 @@ const login = async (email, password) => {
     if (!isPasswordValid) {
         throw new AppError_1.AppError(http_status_1.default.UNAUTHORIZED, 'Invalid credentials');
     }
-    const access_token = jsonwebtoken_1.default.sign({ id: user._id, name: user.name, email: user.email }, config_1.default.api_secret_key, {
+    const access_token = jsonwebtoken_1.default.sign({ id: user._id, name: user.name, email: user.email }, config_1.default.jwt_access_secret, {
         expiresIn: '1d',
     });
     const refresh_token = jsonwebtoken_1.default.sign({ id: user._id, name: user.name, email: user.email }, config_1.default.jwt_refresh_secret, {
@@ -52,6 +51,7 @@ const login = async (email, password) => {
         refresh_token,
     };
 };
+// forget password
 const forgetPassword = async (email) => {
     const user = await users_model_1.User.findOne({ email });
     if (!user) {
@@ -69,6 +69,7 @@ const forgetPassword = async (email) => {
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
     await (0, sendMail_1.sendEmail)(user.email, 'Password Reset', `Reset your password using this link: ${resetUrl}`);
 };
+// reset password
 const resetPassword = async (token, newPassword) => {
     const resetPasswordToken = crypto_1.default
         .createHash('sha256')
@@ -86,6 +87,7 @@ const resetPassword = async (token, newPassword) => {
     user.resetPasswordExpires = undefined;
     await user.save();
 };
+// change password
 const changePassword = async (userId, oldPassword, newPassword) => {
     const user = await users_model_1.User.findById(userId);
     if (!user) {

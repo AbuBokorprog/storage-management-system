@@ -1,4 +1,4 @@
-import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
+import { sendFileToCloudinary } from '../../utils/sendFileToCloudinary';
 import { IUser } from './users.interface';
 import { User } from './users.model';
 
@@ -15,17 +15,22 @@ const getMe = async (userid: string) => {
 };
 
 const updateMe = async (userId: string, payload: Partial<IUser>, file: any) => {
+  let photo = null;
   if (file) {
-    const response: any = await sendImageToCloudinary(
+    const response: any = await sendFileToCloudinary(
       file?.originalname,
       file.path,
     );
-    const secureUrl = response.secureUrl as string;
+    const secureUrl = response.secure_url as string;
 
-    payload.photo = secureUrl || file?.path;
+    photo = secureUrl || file?.path;
   }
 
-  const user = await User.findByIdAndUpdate(userId, { payload });
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { ...payload, photo: photo },
+    { new: true, runValidators: true },
+  );
 
   return user;
 };

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upload = exports.sendImageToCloudinary = void 0;
+exports.upload = exports.sendFileToCloudinary = void 0;
 const cloudinary_1 = require("cloudinary");
 const fs_1 = __importDefault(require("fs"));
 const multer_1 = __importDefault(require("multer"));
@@ -32,7 +32,7 @@ const fileFilter = (req, file, cb) => {
         cb(new Error('Invalid file type. Only images, .doc, and .pdf files are allowed!'));
     }
 };
-const sendImageToCloudinary = (imageName, path) => {
+const sendFileToCloudinary = (imageName, path) => {
     return new Promise((resolve, reject) => {
         cloudinary_1.v2.uploader.upload(path, {
             public_id: imageName.trim(),
@@ -55,7 +55,7 @@ const sendImageToCloudinary = (imageName, path) => {
         });
     });
 };
-exports.sendImageToCloudinary = sendImageToCloudinary;
+exports.sendFileToCloudinary = sendFileToCloudinary;
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
 //     cb(null, process.cwd() + '/uploads/');

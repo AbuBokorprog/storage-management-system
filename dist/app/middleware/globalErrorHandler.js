@@ -10,6 +10,7 @@ const mongooseErrorHandler_1 = require("../errors/mongooseErrorHandler");
 const castErrorHandler_1 = require("../errors/castErrorHandler");
 const duplicateErrorHandler_1 = require("../errors/duplicateErrorHandler");
 const AppError_1 = require("../errors/AppError");
+const multer_1 = __importDefault(require("multer"));
 const globalErrorHandler = (err, req, res, next) => {
     // default error
     let statusCode = err?.statusCode || 500;
@@ -60,11 +61,20 @@ const globalErrorHandler = (err, req, res, next) => {
             },
         ];
     }
-    else if (err instanceof Error) {
+    else if (err instanceof multer_1.default.MulterError) {
         message = err?.message;
         errorSources = [
             {
                 path: '',
+                message: err?.message,
+            },
+        ];
+    }
+    else if (err instanceof Error) {
+        message = err?.message;
+        errorSources = [
+            {
+                path: 'Multer Error',
                 message: err?.message,
             },
         ];

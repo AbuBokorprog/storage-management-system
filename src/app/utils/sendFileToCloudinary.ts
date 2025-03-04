@@ -3,6 +3,7 @@ import fs from 'fs';
 import multer from 'multer';
 import config from '../config';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { Request } from 'express';
 
 cloudinary.config({
   cloud_name: config.cloude_name,
@@ -10,14 +11,41 @@ cloudinary.config({
   api_secret: config.api_secret_key, // Click 'View Credentials' below to copy your API secret
 });
 
-export const sendImageToCloudinary = (
+const allowedMimeTypes = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+  'application/pdf',
+  'application/msword', // .doc
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+];
+
+const fileFilter = (req: Request, file: any, cb: multer.FileFilterCallback) => {
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(
+      new Error(
+        'Invalid file type. Only images, .doc, and .pdf files are allowed!',
+      ),
+    );
+  }
+};
+
+export const sendFileToCloudinary = (
   imageName: string,
   path: string,
 ): Promise<Record<string, unknown>> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       path,
-      { public_id: imageName.trim() },
+      {
+        public_id: imageName.trim(),
+        resource_type: 'auto',
+        access_control: [{ access_type: 'anonymous' }],
+      },
       function (error, result) {
         if (error) {
           reject(error);
@@ -50,4 +78,8 @@ const newStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
 });
 
-export const upload = multer({ storage: newStorage });
+export const upload = multer({
+  storage: newStorage,
+  fileFilter,
+  limits: { fileSize: 20 * 1024 * 1024 },
+});

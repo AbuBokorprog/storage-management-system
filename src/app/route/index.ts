@@ -2,11 +2,21 @@ import express from 'express';
 import { UserRoutes } from '../modules/users/users.route';
 import { AuthRoutes } from '../modules/auth/auth.routes';
 import { foldersRoutes } from '../modules/folders/folders.route';
+import { fileRoutes } from '../modules/files/files.route';
+import { dashboardRoutes } from '../modules/dashboard/dashboard.routes';
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/folder',
+    path: '/dashboard',
+    route: dashboardRoutes,
+  },
+  {
+    path: '/files',
+    route: fileRoutes,
+  },
+  {
+    path: '/folders',
     route: foldersRoutes,
   },
   {

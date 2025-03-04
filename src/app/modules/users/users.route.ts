@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 
 import { usersController } from './users.controller';
 import auth from '../../middleware/auth';
-import { upload } from '../../utils/sendImageToCloudinary';
+import { upload } from '../../utils/sendFileToCloudinary';
 import validateRequest from '../../utils/validateRequest';
 import { userValidation } from './users.validation';
 
@@ -17,7 +17,7 @@ router.patch(
   upload.single('image'),
   auth(),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data);
+    // req.body = JSON.parse(req?.body?.data);
     next();
   },
   validateRequest(userValidation.updateProfile),

@@ -13,5 +13,8 @@ router.post(
   foldersController.createFolder,
 );
 router.get('/', auth(), foldersController.getFolders);
+router.delete('/:id', auth(), foldersController.deleteFolder);
+router.patch('/:id/rename', auth(), foldersController.renameFolder);
+router.post('/:id/duplicate', auth(), foldersController.duplicateFolder);
 
 export const foldersRoutes = router;

@@ -7,6 +7,7 @@ const fileSchema = new Schema<IFile>({
   name: { type: String, required: true },
   type: { type: String, required: true },
   path: { type: String, required: true },
+  size: { type: Number, required: true },
 });
 
 export const File = mongoose.model<IFile>('File', fileSchema);

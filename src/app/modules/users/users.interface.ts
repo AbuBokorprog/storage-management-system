@@ -7,6 +7,8 @@ export interface IUser {
   password: string;
   resetPasswordToken?: string;
   resetPasswordExpires?: number;
+  storageUsed: number;
+  maxStorage: number;
 }
 
 export interface UsersModel extends Model<IUser> {

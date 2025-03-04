@@ -31,5 +31,6 @@ const fileSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     type: { type: String, required: true },
     path: { type: String, required: true },
+    size: { type: Number, required: true },
 });
 exports.File = mongoose_1.default.model('File', fileSchema);

@@ -11,6 +11,7 @@ import { validationErrorHandler } from '../errors/mongooseErrorHandler';
 import { castErrorHandler } from '../errors/castErrorHandler';
 import { duplicateErrorHandler } from '../errors/duplicateErrorHandler';
 import { AppError } from '../errors/AppError';
+import multer from 'multer';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // default error
@@ -59,11 +60,19 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message: err?.message,
       },
     ];
-  } else if (err instanceof Error) {
+  } else if (err instanceof multer.MulterError) {
     message = err?.message;
     errorSources = [
       {
         path: '',
+        message: err?.message,
+      },
+    ];
+  } else if (err instanceof Error) {
+    message = err?.message;
+    errorSources = [
+      {
+        path: 'Multer Error',
         message: err?.message,
       },
     ];

@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 const setEncryptedPin = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const { pin } = req.body;
+
     const data = await encryptedServices.setEncryptedPin(req.user.id, pin);
     successResponse(res, {
       success: true,

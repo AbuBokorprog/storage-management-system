@@ -33,7 +33,7 @@ const getAllFiles = (0, catchAsync_1.default)(async (req, res) => {
 // get all files by user id
 const getAllFilesByUserId = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.user;
-    const fileData = await files_services_1.fileService.getAllFilesByUserId(id, req.query);
+    const fileData = await files_services_1.fileService.getAllFilesByUserId(id);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,

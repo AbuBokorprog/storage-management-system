@@ -14,12 +14,11 @@ cloudinary.config({
 const allowedMimeTypes = [
   'image/jpeg',
   'image/png',
-  'image/gif',
-  'image/webp',
-  'image/svg+xml',
   'application/pdf',
-  'application/msword', // .doc
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/zip',
+  'application/x-rar-compressed',
 ];
 
 const fileFilter = (req: Request, file: any, cb: multer.FileFilterCallback) => {

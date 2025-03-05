@@ -16,9 +16,13 @@ const setEncryptedPin = async (userId: string, pin: string) => {
   }
 
   const hashedPin = await bcrypt.hash(pin, 10);
-  const user = await User.findByIdAndUpdate(userId, {
-    encryptedPin: hashedPin,
-  });
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      encryptedPin: hashedPin,
+    },
+    { new: true, runValidators: true },
+  );
 
   return user;
 };

@@ -20,7 +20,7 @@ const setEncryptedPin = async (userId, pin) => {
     const hashedPin = await bcrypt_1.default.hash(pin, 10);
     const user = await users_model_1.User.findByIdAndUpdate(userId, {
         encryptedPin: hashedPin,
-    });
+    }, { new: true, runValidators: true });
     return user;
 };
 const getEncryptedFilesAndFolders = async (userId, pin) => {

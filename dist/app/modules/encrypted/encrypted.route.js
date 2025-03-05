@@ -15,7 +15,7 @@ router.post('/get-all', (0, auth_1.default)(), encrypted_controller_1.encryptedC
 // remove encrypted pin
 router.post('/remove', (0, auth_1.default)(), encrypted_controller_1.encryptedController.encryptedPinRemove);
 // file encrypted
-router.post('/file/fileId', (0, auth_1.default)(), encrypted_controller_1.encryptedController.toggleFileEncrypt);
+router.post('/file/:fileId', (0, auth_1.default)(), encrypted_controller_1.encryptedController.toggleFileEncrypt);
 // folder encrypted
-router.post('/folder/folderId', (0, auth_1.default)(), encrypted_controller_1.encryptedController.toggleFolderEncrypt);
+router.post('/folder/:folderId', (0, auth_1.default)(), encrypted_controller_1.encryptedController.toggleFolderEncrypt);
 exports.encryptedRoutes = router;

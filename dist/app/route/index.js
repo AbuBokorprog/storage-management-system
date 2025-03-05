@@ -11,11 +11,16 @@ const files_route_1 = require("../modules/files/files.route");
 const dashboard_routes_1 = require("../modules/dashboard/dashboard.routes");
 const favorite_route_1 = require("../modules/favorite/favorite.route");
 const encrypted_route_1 = require("../modules/encrypted/encrypted.route");
+const calender_route_1 = require("../modules/calender/calender.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
         path: '/dashboard',
         route: dashboard_routes_1.dashboardRoutes,
+    },
+    {
+        path: '/calender',
+        route: calender_route_1.calenderRoutes,
     },
     {
         path: '/files',

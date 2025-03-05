@@ -15,6 +15,7 @@ const uploadFile = async (file: any, userId: string, folderId: string) => {
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
   }
+  console.log(file);
 
   if (!file) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Please send file!');
@@ -60,18 +61,8 @@ const getAllFiles = async () => {
   return data;
 };
 
-const getAllFilesByUserId = async (userId: string, query: any) => {
-  let dateQuery;
-
-  if (query.createdAt) {
-    dateQuery = new Date(query.createdAt);
-  }
-
-  const data = await File.find({
-    userId: userId,
-    createdAt: dateQuery,
-    isEncrypted: false,
-  });
+const getAllFilesByUserId = async (userId: string) => {
+  const data = await File.find({ userId, isEncrypted: false });
   return data;
 };
 

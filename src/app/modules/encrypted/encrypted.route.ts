@@ -15,10 +15,10 @@ router.post(
 // remove encrypted pin
 router.post('/remove', auth(), encryptedController.encryptedPinRemove);
 // file encrypted
-router.post('/file/fileId', auth(), encryptedController.toggleFileEncrypt);
+router.post('/file/:fileId', auth(), encryptedController.toggleFileEncrypt);
 // folder encrypted
 router.post(
-  '/folder/folderId',
+  '/folder/:folderId',
   auth(),
   encryptedController.toggleFolderEncrypt,
 );

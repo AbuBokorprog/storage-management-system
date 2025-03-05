@@ -14,7 +14,7 @@ router.post(
 
 router.get('/', auth(), fileController.getAllFiles);
 
-router.get('/customers', auth(), fileController.getAllFilesByUserId);
+router.get('/users', auth(), fileController.getAllFilesByUserId);
 router.delete('/:id', auth(), fileController.deleteFile);
 router.patch('/:id/rename', auth(), fileController.renameFile);
 router.post('/:id/duplicate', auth(), fileController.duplicateFile);

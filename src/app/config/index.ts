@@ -18,4 +18,7 @@ export default {
   cloude_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret_key: process.env.CLOUDINARY_API_SECRET,
+  client_url: process.env.CLIENT_URL,
+  email: process.env.EMAIL_USER,
+  pass: process.env.EMAIL_PASS,
 };

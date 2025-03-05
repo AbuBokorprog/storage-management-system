@@ -9,6 +9,7 @@ export interface IUser {
   resetPasswordExpires?: number;
   storageUsed: number;
   maxStorage: number;
+  encryptedPin?: string;
 }
 
 export interface UsersModel extends Model<IUser> {

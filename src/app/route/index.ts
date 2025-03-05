@@ -4,6 +4,8 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 import { foldersRoutes } from '../modules/folders/folders.route';
 import { fileRoutes } from '../modules/files/files.route';
 import { dashboardRoutes } from '../modules/dashboard/dashboard.routes';
+import { favoriteRoutes } from '../modules/favorite/favorite.route';
+import { encryptedRoutes } from '../modules/encrypted/encrypted.route';
 const router = express.Router();
 
 const moduleRoutes = [
@@ -20,12 +22,20 @@ const moduleRoutes = [
     route: foldersRoutes,
   },
   {
+    path: '/favorite',
+    route: favoriteRoutes,
+  },
+  {
     path: '/users',
     route: UserRoutes,
   },
   {
     path: '/auth',
     route: AuthRoutes,
+  },
+  {
+    path: '/encrypt',
+    route: encryptedRoutes,
   },
 ];
 

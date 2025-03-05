@@ -11,7 +11,7 @@ const sendFileToCloudinary_1 = require("../../utils/sendFileToCloudinary");
 const router = express_1.default.Router();
 router.post('/upload/:folderId', (0, auth_1.default)(), sendFileToCloudinary_1.upload.single('file'), files_controller_1.fileController.uploadFile);
 router.get('/', (0, auth_1.default)(), files_controller_1.fileController.getAllFiles);
-router.get('/customers', (0, auth_1.default)(), files_controller_1.fileController.getAllFilesByUserId);
+router.get('/users', (0, auth_1.default)(), files_controller_1.fileController.getAllFilesByUserId);
 router.delete('/:id', (0, auth_1.default)(), files_controller_1.fileController.deleteFile);
 router.patch('/:id/rename', (0, auth_1.default)(), files_controller_1.fileController.renameFile);
 router.post('/:id/duplicate', (0, auth_1.default)(), files_controller_1.fileController.duplicateFile);

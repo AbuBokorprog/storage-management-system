@@ -54,12 +54,24 @@ const uploadFile = async (file: any, userId: string, folderId: string) => {
 };
 
 const getAllFiles = async () => {
-  const data = await File.find();
+  const data = await File.find({
+    isEncrypted: false,
+  });
   return data;
 };
 
-const getAllFilesByUserId = async (userId: string) => {
-  const data = await File.find({ userId: userId });
+const getAllFilesByUserId = async (userId: string, query: any) => {
+  let dateQuery;
+
+  if (query.createdAt) {
+    dateQuery = new Date(query.createdAt);
+  }
+
+  const data = await File.find({
+    userId: userId,
+    createdAt: dateQuery,
+    isEncrypted: false,
+  });
   return data;
 };
 

@@ -27,10 +27,20 @@ exports.File = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const fileSchema = new mongoose_1.Schema({
     userId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
-    folderId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Folder', required: true },
+    folderId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Folder', default: null },
     name: { type: String, required: true },
     type: { type: String, required: true },
     path: { type: String, required: true },
     size: { type: Number, required: true },
+    isFavorite: {
+        type: Boolean,
+        default: false,
+    },
+    isEncrypted: {
+        type: Boolean,
+        default: false,
+    },
+}, {
+    timestamps: true,
 });
 exports.File = mongoose_1.default.model('File', fileSchema);

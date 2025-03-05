@@ -14,7 +14,7 @@ const createFolder = async (userId, name, parentId) => {
 };
 // get folders by user
 const getFoldersByUser = async (userId) => {
-    const folders = await folders_model_1.Folder.find({ userId });
+    const folders = await folders_model_1.Folder.find({ userId, isEncrypted: false });
     return folders;
 };
 // Delete a folder and its subfolders recursively

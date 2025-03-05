@@ -25,6 +25,10 @@ const UserSchema = new mongoose_1.Schema({
         type: Number,
         default: 15 * 1024 * 1024 * 1024,
     },
+    encryptedPin: {
+        type: String,
+        default: null,
+    },
 }, {
     timestamps: true,
 });

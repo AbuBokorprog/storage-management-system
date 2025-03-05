@@ -33,11 +33,12 @@ const login = (0, catchAsync_1.default)(async (req, res) => {
     });
 });
 const forgetPassword = (0, catchAsync_1.default)(async (req, res) => {
-    await auth_service_1.authService.forgetPassword(req.body.email);
+    const data = await auth_service_1.authService.forgetPassword(req.body.email);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
         message: 'Password reset link sent to your email!',
+        data,
     });
 });
 const resetPassword = (0, catchAsync_1.default)(async (req, res) => {

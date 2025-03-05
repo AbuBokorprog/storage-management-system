@@ -2,6 +2,7 @@ import express from 'express';
 import { authValidation } from './auth.validation';
 import validateRequest from '../../utils/validateRequest';
 import { authController } from './auth.controller';
+import auth from '../../middleware/auth';
 // import auth from '../../middleware/auth';
 
 const router = express.Router();
@@ -30,11 +31,11 @@ router.post(
   authController.resetPassword,
 );
 
-// router.patch(
-//   '/change-password',
-//   auth(),
-//   validateRequest(authValidation.changePasswordSchema),
-//   authController.changePassword,
-// );
+router.patch(
+  '/change-password',
+  auth(),
+  validateRequest(authValidation.changePasswordSchema),
+  authController.changePassword,
+);
 
 export const AuthRoutes = router;

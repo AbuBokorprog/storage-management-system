@@ -70,6 +70,7 @@ const login = async (email: string, password: string) => {
 // forget password
 const forgetPassword = async (email: string) => {
   const user = await User.findOne({ email });
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -85,12 +86,14 @@ const forgetPassword = async (email: string) => {
   user.resetPasswordExpires = resetPasswordExpires;
   await user.save();
 
-  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+  const resetUrl = `${config.client_url}/reset-password/${resetToken}`;
   await sendEmail(
     user.email,
     'Password Reset',
     `Reset your password using this link: ${resetUrl}`,
   );
+
+  return resetToken;
 };
 
 // reset password

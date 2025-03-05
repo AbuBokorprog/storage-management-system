@@ -12,6 +12,7 @@ const crypto_1 = __importDefault(require("crypto"));
 const AppError_1 = require("../../errors/AppError");
 const sendMail_1 = require("../../utils/sendMail");
 const config_1 = __importDefault(require("../../config"));
+const folders_model_1 = require("../folders/folders.model");
 // Register
 const register = async (data) => {
     // check is user already exist?
@@ -26,6 +27,10 @@ const register = async (data) => {
         name: data.name,
         photo: data.photo,
         password: hashedPassword,
+    });
+    await folders_model_1.Folder.create({
+        name: 'New Folder',
+        userId: user._id,
     });
     return user;
 };
@@ -66,8 +71,9 @@ const forgetPassword = async (email) => {
     user.resetPasswordToken = resetPasswordToken;
     user.resetPasswordExpires = resetPasswordExpires;
     await user.save();
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+    const resetUrl = `${config_1.default.client_url}/reset-password/${resetToken}`;
     await (0, sendMail_1.sendEmail)(user.email, 'Password Reset', `Reset your password using this link: ${resetUrl}`);
+    return resetToken;
 };
 // reset password
 const resetPassword = async (token, newPassword) => {

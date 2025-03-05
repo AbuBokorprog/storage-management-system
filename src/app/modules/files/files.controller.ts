@@ -37,8 +37,7 @@ const getAllFiles = catchAsync(async (req, res) => {
 const getAllFilesByUserId = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const { id } = req.user;
-
-    const fileData = await fileService.getAllFilesByUserId(id);
+    const fileData = await fileService.getAllFilesByUserId(id, req.query);
 
     successResponse(res, {
       success: true,

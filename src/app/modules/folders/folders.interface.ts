@@ -5,4 +5,6 @@ export interface IFolder {
   parentId?: mongoose.Types.ObjectId | null;
   name: string;
   files: mongoose.Types.ObjectId[];
+  isFavorite: boolean;
+  isEncrypted: boolean;
 }

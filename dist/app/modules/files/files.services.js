@@ -49,11 +49,21 @@ const uploadFile = async (file, userId, folderId) => {
     };
 };
 const getAllFiles = async () => {
-    const data = await files_model_1.File.find();
+    const data = await files_model_1.File.find({
+        isEncrypted: false,
+    });
     return data;
 };
-const getAllFilesByUserId = async (userId) => {
-    const data = await files_model_1.File.find({ userId: userId });
+const getAllFilesByUserId = async (userId, query) => {
+    let dateQuery;
+    if (query.createdAt) {
+        dateQuery = new Date(query.createdAt);
+    }
+    const data = await files_model_1.File.find({
+        userId: userId,
+        createdAt: dateQuery,
+        isEncrypted: false,
+    });
     return data;
 };
 const deleteFile = async (fileId, userId) => {

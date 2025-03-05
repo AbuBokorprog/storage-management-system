@@ -17,7 +17,7 @@ const createFolder = async (
 
 // get folders by user
 const getFoldersByUser = async (userId: string) => {
-  const folders = await Folder.find({ userId });
+  const folders = await Folder.find({ userId, isEncrypted: false });
   return folders;
 };
 

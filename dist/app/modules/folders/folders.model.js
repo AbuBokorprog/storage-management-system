@@ -30,5 +30,15 @@ const folderSchema = new mongoose_1.Schema({
     parentId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Folder', default: null },
     name: { type: String, required: true },
     files: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'File' }],
+    isFavorite: {
+        type: Boolean,
+        default: false,
+    },
+    isEncrypted: {
+        type: Boolean,
+        default: false,
+    },
+}, {
+    timestamps: true,
 });
 exports.Folder = mongoose_1.default.model('Folder', folderSchema);

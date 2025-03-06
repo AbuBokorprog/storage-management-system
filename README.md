@@ -1,164 +1,100 @@
-# 📁 Storage Management System
+# Storage Management System
 
-The **Storage Management System** is a cloud-based file storage solution, similar to Google Drive, allowing users to upload, manage, and organize files within a specified storage limit. Each user has a default storage allocation of 15 GB, with automatic storage management features to handle file uploads, deletions, and storage usage.
+## Project Overview
 
----
+The Storage Management System is a robust application that allows users to securely store, manage, and organize files and folders. It offers user authentication, folder and file management, file encryption, and insightful summaries of storage usage. The system is designed to handle various file types and provides a user-friendly interface for seamless file and folder operations.
 
-## 🚀 **Features**
+## Features
 
-### 🔒 **Authentication & Authorization**
+### 1. User Authentication & Authorization
 
-- Secure login and registration.
-- Role-based access control.
+- **Register & Login:** Users can register and log in securely.
+- **Password Management:** Supports forgot password, reset password, and change password functionality.
+- **JWT Authentication:** Manages secure access to user-specific data.
 
-### 📂 **File Management**
+### 2. Folder Management
 
-- Upload files to folders.
-- Delete files and restore storage.
-- Organize files into directories.
-- Support for various file types (e.g., images, PDFs, documents).
-- Real-time storage usage updates.
+- **Create Folders:** Organize files into custom folders.
+- **Delete & Rename Folders:** Manage and update folder names.
+- **Duplicate Folders:** Create copies of existing folders.
 
-### 📊 **Storage Management**
+### 3. File Management
 
-- Default 15 GB storage allocation per user.
-- Automatically updates used and available storage.
-- Displays storage usage in a human-readable format.
+- **Upload Files:** Supports image, PDF, and document uploads.
+- **Delete, Rename, and Duplicate Files:** Flexible file management.
+- **File Encryption:** Set, remove, and manage encrypted pins for files and folders.
+- **Datewise Filtering:** Filter files and folders by date.
 
-### 📅 **Recent Files & File Filtering**
+### 4. File & Folder Encryption
 
-- Fetch recently uploaded files.
-- Filter files by type (e.g., images, documents, videos).
+- **Set Encryption Pin:** Users can hide files and folders with a secure pin.
+- **Access Control:** Only accessible through pin validation.
+- **Remove Encryption:** Allows users to remove the encryption pin.
 
----
+### 5. Storage Summary
 
-## 🗃️ **Data Models**
+- **Dashboard Overview:** Recent files, total folders, PDFs, notes, and images.
+- **Storage Management:** Displays used storage, total storage, and available storage.
 
-### **1. User Model**
+## Known Issue
 
-```ts
-import mongoose, { Schema } from 'mongoose';
+- **DOCX File Upload Issue:** There is currently an issue when trying to upload `.docx` files through Postman or API requests. While image files upload successfully, `.docx` files result in an error: "Unsupported ZIP file". Manual upload to Cloudinary works, but programmatic upload via API does not. Further investigation is needed to resolve this issue.
 
-const userSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  maxStorage: { type: Number, default: 15 * 1024 * 1024 * 1024 }, // 15 GB
-  storageUsed: { type: Number, default: 0 },
-});
+## Technology Stack
 
-export const User = mongoose.model('User', userSchema);
-```
+- **Backend:** Node.js, Express
+- **Database:** MongoDB, Mongoose
+- **Cloud Storage:** Cloudinary for file storage
+- **Authentication:** JSON Web Tokens (JWT)
 
-### **2. File Model**
+## Setup & Installation
 
-```ts
-import mongoose, { Schema } from 'mongoose';
+### Prerequisites
 
-const fileSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  folderId: { type: Schema.Types.ObjectId, ref: 'Folder', required: true },
-  name: { type: String, required: true },
-  type: { type: String, required: true },
-  path: { type: String, required: true },
-  size: { type: Number, required: true },
-});
+- Node.js and npm installed
+- MongoDB instance running
 
-export const File = mongoose.model('File', fileSchema);
-```
+### Steps
 
-### **3. Folder Model**
+1. **Clone the Repository**
 
-```ts
-import mongoose, { Schema } from 'mongoose';
-
-const folderSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  name: { type: String, required: true },
-  files: [{ type: Schema.Types.ObjectId, ref: 'File' }],
-});
-
-export const Folder = mongoose.model('Folder', folderSchema);
-```
-
----
-
-## 🛠️ **Core Functionalities**
-
-### 1. **File Upload**
-
-- Uploads file to Cloudinary.
-- Stores file metadata in the database.
-- Updates user storage usage.
-
-### 2. **File Deletion**
-
-- Deletes file from Cloudinary.
-- Removes file metadata from the database.
-- Restores available storage to the user.
-
-### 3. **Storage Calculation**
-
-```ts
-const totalStorage = formatBytes(user?.maxStorage || 0);
-const usedStorage = formatBytes(user?.storageUsed || 0);
-const availableStorage = formatBytes(
-  (user?.maxStorage || 0) - (user?.storageUsed || 0),
-);
-```
-
----
-
-## 📦 **Installation**
-
-```bash
-# Clone the repository
-git clone https://github.com/your-repo/storage-management-system.git
-
-# Install dependencies
+```sh
+git clone https://github.com/AbuBokorprog/storage-management-system
 cd storage-management-system
+```
+
+2. **Install Dependencies**
+
+```sh
 npm install
+```
 
-# Set up environment variables
-cp .env.example .env
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory and add the following variables:
 
-# Start the server
+```plaintext
+NODE_ENV= development
+PORT=5000
+MONGODB_URL=database-url
+SALT=12
+JWT_ACCESS_SECRET = 091b2c529dec033b5ff4531e622ea3f93170e045222963319662b7e4a34f0cdd
+JWT_EXPIRES_IN=10d
+JWT_REFRESH_SECRET = 41b991b21dc0a439cb45fed544992ba3fafa3f912d3c4dedebec3592d7d552fb74a86a4d69ea560bcf7bf988d173ddecaffa9815dd5a6661bcacd58c0cdb2dc5
+JWT_REFRESH_EXPIRES_IN=365d
+CLOUDINARY_CLOUD_NAME=cloud-name
+CLOUDINARY_API_KEY=cloudinary-api-key
+CLOUDINARY_API_SECRET=cloudinary-api-secret
+CLIENT_URL=http://localhost:3000
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-email-password
+```
+
+4. **Start the Server**
+
+```sh
 npm run dev
 ```
 
----
+## Conclusion
 
-## 🌐 **API Endpoints**
-
-### **Authentication**
-
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-
-### **File Management**
-
-- `POST /api/files/upload/:folderId` - Upload file
-- `DELETE /api/files/:fileId` - Delete file
-- `GET /api/files/recent` - Fetch recent files
-
-### **Storage Management**
-
-- `GET /api/storage` - Fetch user storage details
-
----
-
-## 🧑‍💻 **Contributing**
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new feature branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Open a pull request.
-
----
-
-## 📄 **License**
-
-This project is licensed under the MIT License.
+The Storage Management System is a complete solution for file and folder management with advanced features like encryption and detailed storage analysis. This project can be extended with additional features such as sharing files and integrating with third-party services.

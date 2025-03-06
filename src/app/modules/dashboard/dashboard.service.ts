@@ -18,9 +18,12 @@ const dashboardSummary = async (userId: string) => {
 
   const totalNote = await File.find({
     userId: userId,
-    type:
-      'application/msword' ||
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    type: {
+      $in: [
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ],
+    },
   });
 
   const totalPDF = await File.find({
@@ -30,7 +33,6 @@ const dashboardSummary = async (userId: string) => {
 
   const totalImage = await File.find({
     userId,
-
     type: { $regex: 'image' },
   });
 

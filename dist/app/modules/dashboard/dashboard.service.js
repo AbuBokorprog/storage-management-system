@@ -20,8 +20,12 @@ const dashboardSummary = async (userId) => {
     });
     const totalNote = await files_model_1.File.find({
         userId: userId,
-        type: 'application/msword' ||
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        type: {
+            $in: [
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ],
+        },
     });
     const totalPDF = await files_model_1.File.find({
         userId: userId,
